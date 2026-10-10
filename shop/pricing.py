@@ -13,9 +13,16 @@ TAX_RATES: dict[str, float] = {
 SHIPPING_FLAT = 5.00
 FREE_SHIPPING_THRESHOLD = 50.00
 
+SMALL_ORDER_FEE = 1.50
+SMALL_ORDER_THRESHOLD = 15.00
+
 
 def shipping_for(subtotal: float) -> float:
     return 0.0 if subtotal >= FREE_SHIPPING_THRESHOLD else SHIPPING_FLAT
+
+
+def fee_for(subtotal: float) -> float:
+    return SMALL_ORDER_FEE if subtotal < SMALL_ORDER_THRESHOLD else 0.0
 
 
 def tax_for(subtotal: float, region: str) -> float:
@@ -25,13 +32,15 @@ def tax_for(subtotal: float, region: str) -> float:
 
 
 def quote(cart: Cart, region: str) -> dict[str, float]:
-    """Price breakdown for a cart: subtotal, shipping, tax (on the subtotal) and total."""
+    """Price breakdown for a cart: subtotal, shipping, small-order fee, tax (on the subtotal) and total."""
     subtotal = cart.subtotal()
     shipping = shipping_for(subtotal)
+    fee = fee_for(subtotal)
     tax = tax_for(subtotal, region)
     return {
         "subtotal": subtotal,
         "shipping": shipping,
+        "fee": fee,
         "tax": tax,
-        "total": round_money(subtotal + shipping + tax),
+        "total": round_money(subtotal + shipping + fee + tax),
     }

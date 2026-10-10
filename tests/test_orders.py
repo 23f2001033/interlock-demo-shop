@@ -34,4 +34,4 @@ def test_gateway_tracks_totals_per_customer():
         cart = Cart()
         cart.add("BAG-01")
         place_order(cart, "cus_2", "EU-DE", gateway)
-    assert gateway.total_charged("cus_2") == 2 * 1684
+    assert gateway.total_charged("cus_2") == 2 * 1834
