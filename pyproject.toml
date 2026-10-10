@@ -1,0 +1,13 @@
+[project]
+name = "demo-shop"
+version = "0.1.0"
+description = "A tiny shop backend: catalog, cart, pricing, payments, orders and receipts."
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
