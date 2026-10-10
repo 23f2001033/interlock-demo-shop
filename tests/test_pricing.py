@@ -33,6 +33,22 @@ def test_quote_breakdown():
     }
 
 
+def test_maharashtra_tax():
+    assert tax_for(100.00, "IN-MH") == 18.00
+    assert tax_for(39.98, "IN-MH") == 7.20
+
+
+def test_quote_in_maharashtra():
+    cart = Cart()
+    cart.add("TEE-01", 2)
+    assert quote(cart, "IN-MH") == {
+        "subtotal": 39.98,
+        "shipping": 5.00,
+        "tax": 7.20,
+        "total": 52.18,
+    }
+
+
 def test_quote_with_free_shipping():
     cart = Cart()
     cart.add("MUG-01", 4)
