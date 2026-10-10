@@ -6,7 +6,7 @@ from shop.cart import Cart
 def test_subtotal_multiplies_price_by_quantity():
     cart = Cart()
     cart.add("TEE-01", 2)
-    assert cart.subtotal() == 39.98
+    assert cart.subtotal() == 3998
 
 
 def test_adding_same_sku_accumulates_quantity():
@@ -14,7 +14,14 @@ def test_adding_same_sku_accumulates_quantity():
     cart.add("MUG-01")
     cart.add("MUG-01", 2)
     assert cart.lines() == [("MUG-01", 3)]
-    assert cart.subtotal() == 37.50
+    assert cart.subtotal() == 3750
+
+
+def test_subtotal_is_int_cents():
+    cart = Cart()
+    cart.add("BAG-01", 3)
+    assert cart.subtotal() == 2985
+    assert type(cart.subtotal()) is int
 
 
 def test_remove_drops_the_line():

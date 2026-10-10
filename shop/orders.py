@@ -5,7 +5,6 @@ from dataclasses import dataclass
 
 from shop.cart import Cart
 from shop.catalog import get_product, price_of
-from shop.money import round_money
 from shop.payments import PaymentGateway
 from shop.pricing import quote
 
@@ -17,8 +16,8 @@ class OrderLine:
     sku: str
     name: str
     qty: int
-    unit_price: float  # US dollars
-    line_total: float  # US dollars
+    unit_price: int  # US cents
+    line_total: int  # US cents
 
 
 @dataclass(frozen=True)
@@ -27,10 +26,10 @@ class Order:
     customer_id: str
     region: str
     lines: list[OrderLine]
-    subtotal: float
-    shipping: float
-    tax: float
-    total: float
+    subtotal: int  # US cents
+    shipping: int  # US cents
+    tax: int  # US cents
+    total: int  # US cents
     charge_id: str
 
 
@@ -39,9 +38,9 @@ def place_order(cart: Cart, customer_id: str, region: str, gateway: PaymentGatew
     if cart.is_empty():
         raise ValueError("cart is empty")
     q = quote(cart, region)
-    charge_id = gateway.charge(customer_id, int(round(q["total"] * 100)))
+    charge_id = gateway.charge(customer_id, q["total"])
     lines = [
-        OrderLine(sku, get_product(sku).name, qty, price_of(sku), round_money(price_of(sku) * qty))
+        OrderLine(sku, get_product(sku).name, qty, price_of(sku), price_of(sku) * qty)
         for sku, qty in cart.lines()
     ]
     return Order(

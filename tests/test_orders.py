@@ -10,8 +10,8 @@ def test_order_charges_total_in_cents():
     cart.add("TEE-01", 2)
     gateway = PaymentGateway()
     order = place_order(cart, "cus_1", "US-CA", gateway)
-    assert order.total == 47.88
-    assert gateway.charges[0].amount_cents == 4788
+    assert order.total == 4788
+    assert gateway.charges[0].amount_cents == order.total
     assert order.charge_id == gateway.charges[0].id
 
 
@@ -20,7 +20,7 @@ def test_order_lines_capture_prices():
     cart.add("TEE-01", 2)
     order = place_order(cart, "cus_1", "US-CA", PaymentGateway())
     line = order.lines[0]
-    assert (line.sku, line.qty, line.unit_price, line.line_total) == ("TEE-01", 2, 19.99, 39.98)
+    assert (line.sku, line.qty, line.unit_price, line.line_total) == ("TEE-01", 2, 1999, 3998)
 
 
 def test_empty_cart_cannot_be_ordered():
