@@ -7,14 +7,14 @@ from dataclasses import dataclass
 class Product:
     sku: str
     name: str
-    price: float  # unit price in US dollars
+    price: int  # unit price in US cents
 
 
 CATALOG: dict[str, Product] = {
-    "MUG-01": Product("MUG-01", "Ceramic mug", 12.50),
-    "TEE-01": Product("TEE-01", "Logo t-shirt", 19.99),
-    "CAP-01": Product("CAP-01", "Baseball cap", 15.00),
-    "BAG-01": Product("BAG-01", "Tote bag", 9.95),
+    "MUG-01": Product("MUG-01", "Ceramic mug", 1250),
+    "TEE-01": Product("TEE-01", "Logo t-shirt", 1999),
+    "CAP-01": Product("CAP-01", "Baseball cap", 1500),
+    "BAG-01": Product("BAG-01", "Tote bag", 995),
 }
 
 
@@ -25,6 +25,6 @@ def get_product(sku: str) -> Product:
         raise KeyError(f"unknown sku: {sku}") from None
 
 
-def price_of(sku: str) -> float:
-    """Unit price of a product, in US dollars."""
+def price_of(sku: str) -> int:
+    """Unit price of a product, in US cents."""
     return get_product(sku).price
