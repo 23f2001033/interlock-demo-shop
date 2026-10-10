@@ -28,17 +28,20 @@ class Order:
     region: str
     lines: list[OrderLine]
     subtotal: float
+    discount: float
     shipping: float
     tax: float
     total: float
     charge_id: str
 
 
-def place_order(cart: Cart, customer_id: str, region: str, gateway: PaymentGateway) -> Order:
-    """Quote the cart, charge the customer and return the order."""
+def place_order(
+    cart: Cart, customer_id: str, region: str, gateway: PaymentGateway, code: str | None = None
+) -> Order:
+    """Quote the cart (with an optional discount code), charge the customer and return the order."""
     if cart.is_empty():
         raise ValueError("cart is empty")
-    q = quote(cart, region)
+    q = quote(cart, region, code)
     charge_id = gateway.charge(customer_id, int(round(q["total"] * 100)))
     lines = [
         OrderLine(sku, get_product(sku).name, qty, price_of(sku), round_money(price_of(sku) * qty))
@@ -50,6 +53,7 @@ def place_order(cart: Cart, customer_id: str, region: str, gateway: PaymentGatew
         region=region,
         lines=lines,
         subtotal=q["subtotal"],
+        discount=q["discount"],
         shipping=q["shipping"],
         tax=q["tax"],
         total=q["total"],

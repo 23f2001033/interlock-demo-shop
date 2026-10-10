@@ -13,3 +13,15 @@ def test_receipt_shows_lines_and_totals():
     assert "Shipping: $5.00" in receipt
     assert "Tax (US-CA): $2.90" in receipt
     assert "Total: $47.88" in receipt
+    assert "Discount" not in receipt
+
+
+def test_receipt_shows_discount():
+    cart = Cart()
+    cart.add("MUG-01", 2)
+    cart.add("CAP-01")
+    receipt = render_receipt(place_order(cart, "cus_1", "US-CA", PaymentGateway(), code="SAVE10"))
+    assert "Subtotal: $40.00" in receipt
+    assert "Discount: -$4.00" in receipt
+    assert "Tax (US-CA): $2.61" in receipt
+    assert "Total: $43.61" in receipt

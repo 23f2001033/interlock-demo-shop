@@ -12,6 +12,8 @@ def render_receipt(order: Order) -> str:
             f"  {format_money(line.line_total)}"
         )
     out.append(f"Subtotal: {format_money(order.subtotal)}")
+    if order.discount:
+        out.append(f"Discount: -{format_money(order.discount)}")
     out.append(f"Shipping: {format_money(order.shipping)}")
     out.append(f"Tax ({order.region}): {format_money(order.tax)}")
     out.append(f"Total: {format_money(order.total)}")
