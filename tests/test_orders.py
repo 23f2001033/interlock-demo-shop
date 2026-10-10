@@ -15,6 +15,17 @@ def test_order_charges_total_in_cents():
     assert order.charge_id == gateway.charges[0].id
 
 
+def test_order_in_maharashtra():
+    cart = Cart()
+    cart.add("TEE-01", 2)
+    gateway = PaymentGateway()
+    order = place_order(cart, "cus_1", "IN-MH", gateway)
+    assert order.region == "IN-MH"
+    assert order.tax == 720
+    assert order.total == 5218
+    assert gateway.charges[0].amount_cents == order.total
+
+
 def test_order_lines_capture_prices():
     cart = Cart()
     cart.add("TEE-01", 2)

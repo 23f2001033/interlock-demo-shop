@@ -48,6 +48,22 @@ def test_quote_amounts_are_int_cents():
     assert q["total"] == q["subtotal"] + q["shipping"] + q["tax"]
 
 
+def test_maharashtra_tax():
+    assert tax_for(10000, "IN-MH") == 1800
+    assert tax_for(3998, "IN-MH") == 720
+
+
+def test_quote_in_maharashtra():
+    cart = Cart()
+    cart.add("TEE-01", 2)
+    assert quote(cart, "IN-MH") == {
+        "subtotal": 3998,
+        "shipping": 500,
+        "tax": 720,
+        "total": 5218,
+    }
+
+
 def test_quote_with_free_shipping():
     cart = Cart()
     cart.add("MUG-01", 4)

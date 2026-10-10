@@ -8,6 +8,7 @@ TAX_RATES: dict[str, float] = {
     "US-NY": 0.04,
     "EU-DE": 0.19,
     "IN-KA": 0.18,
+    "IN-MH": 0.18,
 }
 
 SHIPPING_FLAT = 500
