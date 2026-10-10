@@ -2,7 +2,7 @@
   "cli_version": "0.11.4",
   "checkpoint_id": "01M4KWAWQGXQ2EH1RY73P64283",
   "strategy": "manual-commit",
-  "checkpoints_count": 2,
+  "checkpoints_count": 3,
   "files_touched": null,
   "sessions": [
     {
@@ -14,10 +14,10 @@
     }
   ],
   "token_usage": {
-    "input_tokens": 40,
-    "cache_creation_tokens": 105575,
-    "cache_read_tokens": 1045225,
-    "output_tokens": 14517,
-    "api_call_count": 20
+    "input_tokens": 46,
+    "cache_creation_tokens": 111962,
+    "cache_read_tokens": 1274053,
+    "output_tokens": 16478,
+    "api_call_count": 23
   }
 }
